@@ -4,7 +4,7 @@
  */ 
 #include <pololu/3pi.h>
 
-void intersection_handling(){
+void PID_handling(){
 	long integral_value = 0;
 	int final_proportional = 0;
 	

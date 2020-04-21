@@ -1,1 +1,0 @@
-void intersection_handling();
