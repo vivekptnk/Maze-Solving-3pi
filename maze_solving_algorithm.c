@@ -65,10 +65,76 @@ void maze_solver(){
 		//use the turn_control function to make the right turn
 		turn_control(direction);
 		
-		// use solve_path function to make the path more efficient 
-		solve_path();
+		// use optimize_path() function to make the path more efficient 
+		optimize_path();	
 		
 	}
 	
-	//
+	//loop to run maze infinite times
+	while(1){
+		
+		int i;
+		for(i=0; i<path_length; i++){
+			PID_handling();
+			
+			//going straight slowly 
+			set_motors(50,50);
+			delay_ms(50);
+			set_motors(40,40);
+			delay_ms(200);
+			
+			turn_control(path_tracker[i]);
+			
+		}
+		
+		PID_handling();
+	}
+}
+
+
+//we can optimize the path by eliminating dead ends (making U turns can be avoided)
+void optimize_path(){
+	
+	if(path_length<3 || path_tracker[path_length-2] != "TB"){
+		return;
+	}
+	
+	int angle = 0;
+	int i;
+	
+	for(i=0; i<=3; i++){
+		switch(path_tracker[path_length-i]){
+			case "TR":
+				angle = angle + 90;
+				break;
+			case "TL":
+				angle = angle + 270;
+				break;
+			case "TB":
+				angle = angle + 180;
+				break;
+		}
+	}
+	
+	// angle should remain between 0 to 360
+	angle = angle % 360;
+	
+	//optimizing the turns with a single turn
+	switch(angle){
+		case 0:
+			path_tracker[path_length-3] = "GS";
+			break;
+		case 90:
+			path_tracker[path_length-3] = "TR";
+			break;
+		case 180:
+			path_tracker[path_length-3] = "TB";
+			break;
+		case 270:
+			path_tracker[path_length-3] = "TL";
+			break;
+	}
+	
+	//since path is now shorter by 2 steps
+	path_length = path_length -2 ;
 }
