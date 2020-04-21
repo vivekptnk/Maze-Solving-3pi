@@ -1,1 +1,1 @@
-void turn(char dir);
+void turn_control(char direction);
