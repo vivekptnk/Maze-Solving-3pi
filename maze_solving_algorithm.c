@@ -1,26 +1,75 @@
 #include <pololu/3pi.h>
 #include "turn_control.h"
-#include "intersection_handling.h"
+#include "PID_handling.h"
 
 //variable to store the path taken that is "TR TL TB GS"
-char path_tracker = "";
+char path_tracker[200] = "";
 unsigned char path_length = 0;
 
 char turn_detection(unsigned char left_detect, unsigned char right_detect, unsigned char straight_detect){
 	//we will use left-hand-on-the-wall strategy
 	if(left_detect)
-		return "TL";
+		return 'L';
 	else if(straight_detect)
-		return "GS";
+		return 'S';
 	else if(right_detect)
-		return "TR";
+		return 'R';
 	else
-		return "TB";
+		return 'B';
+}
+
+
+
+//we can optimize the path by eliminating dead ends (making U turns can be avoided)
+void optimize_path(){
+	
+	if(path_length<3 || path_tracker[path_length-2] != 'B'){
+		return;
+	}
+	
+	int angle = 0;
+	int i;
+	
+	for(i=0; i<=3; i++){
+		switch(path_tracker[path_length-i]){
+			case 'R':
+			angle = angle + 90;
+			break;
+			case 'L':
+			angle = angle + 270;
+			break;
+			case 'B':
+			angle = angle + 180;
+			break;
+		}
+	}
+	
+	// angle should remain between 0 to 360
+	angle = angle % 360;
+	
+	//optimizing the turns with a single turn
+	switch(angle){
+		case 0:
+		path_tracker[path_length-3] = 'S';
+		break;
+		case 90:
+		path_tracker[path_length-3] = 'R';
+		break;
+		case 180:
+		path_tracker[path_length-3] = 'B';
+		break;
+		case 270:
+		path_tracker[path_length-3] = 'L';
+		break;
+	}
+	
+	//since path is now shorter by 2 steps
+	path_length = path_length -2 ;
 }
 
 
 //maze solver
-void maze_solver(){
+void maze_solving_algorithm(){
 	while(1){
 		PID_handling();
 		
@@ -73,6 +122,24 @@ void maze_solver(){
 	//loop to run maze infinite times
 	while(1){
 		
+		
+		//wait for button to be pressed
+		while(button_is_pressed(BUTTON_B)){
+			if(get_ms() % 2000 < 1000){
+				clear();
+				print("solved");
+				lcd_goto_xy(0,1);
+				print("Press B");
+			}
+			
+			delay_ms(30);
+		}
+		
+		while(button_is_pressed(BUTTON_B));
+		
+		delay_ms(1000);
+		
+		
 		int i;
 		for(i=0; i<path_length; i++){
 			PID_handling();
@@ -89,52 +156,4 @@ void maze_solver(){
 		
 		PID_handling();
 	}
-}
-
-
-//we can optimize the path by eliminating dead ends (making U turns can be avoided)
-void optimize_path(){
-	
-	if(path_length<3 || path_tracker[path_length-2] != "TB"){
-		return;
-	}
-	
-	int angle = 0;
-	int i;
-	
-	for(i=0; i<=3; i++){
-		switch(path_tracker[path_length-i]){
-			case "TR":
-				angle = angle + 90;
-				break;
-			case "TL":
-				angle = angle + 270;
-				break;
-			case "TB":
-				angle = angle + 180;
-				break;
-		}
-	}
-	
-	// angle should remain between 0 to 360
-	angle = angle % 360;
-	
-	//optimizing the turns with a single turn
-	switch(angle){
-		case 0:
-			path_tracker[path_length-3] = "GS";
-			break;
-		case 90:
-			path_tracker[path_length-3] = "TR";
-			break;
-		case 180:
-			path_tracker[path_length-3] = "TB";
-			break;
-		case 270:
-			path_tracker[path_length-3] = "TL";
-			break;
-	}
-	
-	//since path is now shorter by 2 steps
-	path_length = path_length -2 ;
 }

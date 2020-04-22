@@ -150,16 +150,28 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="follow_segment.c">
+    <Compile Include="IncFile1.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="turn.c">
+    <Compile Include="maze_solving_algorithm.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="turn.h">
+    <Compile Include="maze_solving_algorithm.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PID_handling.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="PID_handling.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="turn_control.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="turn_control.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

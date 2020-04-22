@@ -10,7 +10,7 @@ void PID_handling(){
 	
 	
 	//basically line following code 
-	while(){
+	while(1){
 		unsigned int sensors[5];
 		unsigned int position  = read_line(sensors, IR_EMITTERS_ON);
 		

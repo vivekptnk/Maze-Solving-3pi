@@ -3,24 +3,24 @@
 void turn_control(char direction){
 	switch(direction)
 	{
-		case 'TL':
+		case 'L':
 			//turn left
 			set_motors(-80,80);
 			delay_ms(200);
 			break;
 		
-		case 'TR':
+		case 'R':
 			//turn right 
 			set_motors(80,-80);
 			delay(200);
 			break;
 			
-		case 'TB':
+		case 'B':
 			//turn back 
 			set_motors(80,-80);
 			delay_ms(400);
 			break;
-		case 'GS': // go straight
+		case 'S': // go straight
 			// no action
 			break;
 	}
