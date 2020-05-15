@@ -22,7 +22,7 @@ void line_follow(){
 		int current_deriviative = current_proportional - final_proportional;
 		
 		//Computing I in PID
-		integral_value = integral_value + current_proportional;
+		integral_value +=  current_proportional;
 		
 		//Store the final position
 		final_proportional = current_proportional;
@@ -47,6 +47,7 @@ void line_follow(){
 		if(sensors[1]<100 && sensors[2]<100 && sensors[3]<100){
 			//no line 
 			//its probably an dead end
+			return;
 		} else if(sensors[0]>200 || sensors[4]>200){
 			//its an intersection
 			return;

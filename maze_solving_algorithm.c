@@ -1,12 +1,24 @@
 #include <pololu/3pi.h>
 #include "turn_control.h"
 #include "line_follow.h"
-#include "left_hand_on_wall.h"
+//#include "left_hand_on_wall.h"
 
 //variable to store the path taken that is "R(right) L B S"
 unsigned char path_length = 0;
 char path_tracker[200] = "";
 
+
+char left_hand_on_wall(unsigned char left_detect, unsigned char right_detect, unsigned char straight_detect){
+	//we will use left-hand-on-the-wall strategy as discussed in the solutions document
+	if(left_detect)
+		return 'L';
+	else if(straight_detect)
+		return 'S';
+	else if(right_detect)
+		return 'R';
+	else
+		return 'B';
+}
 
 //we can optimize the path by eliminating dead ends (making U turns can be avoided)
 void optimize_path(){
@@ -21,13 +33,13 @@ void optimize_path(){
 	for(i=0; i<=3; i++){
 		switch(path_tracker[path_length-i]){
 			case 'R':
-			angle = angle + 90;
+			angle +=  90;
 			break;
 			case 'L':
-			angle = angle + 270;
+			angle += 270;
 			break;
 			case 'B':
-			angle = angle + 180;
+			angle += 180;
 			break;
 		}
 	}
@@ -38,21 +50,21 @@ void optimize_path(){
 	//optimizing the turns with a single turn
 	switch(angle){
 		case 0:
-		path_tracker[path_length-3] = 'S';
-		break;
+			path_tracker[path_length-3] = 'S';
+			break;
 		case 90:
-		path_tracker[path_length-3] = 'R';
-		break;
+			path_tracker[path_length-3] = 'R';
+			break;
 		case 180:
-		path_tracker[path_length-3] = 'B';
-		break;
+			path_tracker[path_length-3] = 'B';
+			break;
 		case 270:
-		path_tracker[path_length-3] = 'L';
-		break;
+			path_tracker[path_length-3] = 'L';
+			break;
 	}
 	
 	//since path is now shorter by 2 steps
-	path_length = path_length -2 ;
+	path_length -= 2 ;
 }
 
 //maze solver
@@ -77,7 +89,6 @@ void maze_solving_algorithm(){
 		if(sensors[0]>100){
 			left_detect1 = 1;
 		}
-		
 		if(sensors[4]>100){
 			right_detect1 = 1;
 		}
@@ -85,21 +96,26 @@ void maze_solving_algorithm(){
 		set_motors(40,40);
 		delay_ms(200);
 		
-		
-		//check if straight exists
-		if(sensors[1]>200 || sensors[2]>200 || sensors[3]>200){
+		//check for straight 
+		read_line(sensors,IR_EMITTERS_ON);
+		if(sensors[1] >200 || sensors[2] >200 || sensors[3] >200){
 			straight_detect1 = 1;
 		}
 		
-		if(sensors[1] > 600 && sensors[2] > 600 && sensors[3] > 600){
+		//check for maze end --> all three middle sensors are on black then stop
+		if(sensors[1] > 600 && sensors[2] > 600 && sensors[3] > 600)
 			break;
-		}
-		
+			
+		// intersection detection is done
+		// we need to learn the solution if the maze isnt solved yet
 		//intersection identified
-		unsigned char direction = left_hand_on_wall(left_detect1, right_detect1, straight_detect1);
+		unsigned char direction = left_hand_on_wall(left_detect1, right_detect1, straight_detect1); 
 		
-		//use the turn_control function to make the right turn
+		// make the turn 
 		turn_control(direction);
+		
+		path_tracker[path_length] = direction;
+		path_length ++;
 		
 		// use optimize_path() function to make the path more efficient 
 		optimize_path();	
@@ -115,7 +131,7 @@ void maze_solving_algorithm(){
 		while(button_is_pressed(BUTTON_B)){
 			if(get_ms() % 2000 < 1000){
 				clear();
-				print("solved");
+				print("Solved");
 				lcd_goto_xy(0,1);
 				print("Press B");
 			}
@@ -125,7 +141,7 @@ void maze_solving_algorithm(){
 		
 		while(button_is_pressed(BUTTON_B));
 		
-		delay_ms(1000);
+		delay_ms(30);
 		
 		
 		int i;
