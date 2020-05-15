@@ -28,10 +28,10 @@ void line_follow(){
 		final_proportional = current_proportional;
 		
 		//Speed Handling among the motors
-		int power_difference = current_proportional/20 + integral_value/10000 + current_deriviative*3/2;
+		int power_difference = current_proportional/20 + integral_value/10000 + current_deriviative*0.75;
 		
 		//Motor settings
-		const int max_speed = 60; //max speed
+		const int max_speed = 70; //max speed
 		if(power_difference > max_speed)
 			power_difference = max_speed;
 		if(power_difference < -max_speed)

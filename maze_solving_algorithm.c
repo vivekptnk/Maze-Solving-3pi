@@ -1,23 +1,11 @@
 #include <pololu/3pi.h>
 #include "line_follow.h"
 #include "turn_control.h"
+#include "left_hand_on_wall.h"
 
 //variable to store the path taken that is "R(right) L B S"
 unsigned char path_length = 0;
 char path_tracker[200] = "";
-
-
-char left_hand_on_wall(unsigned char left_detect, unsigned char right_detect, unsigned char straight_detect){
-	//we will use left-hand-on-the-wall strategy as discussed in the solutions document
-	if(left_detect)
-	return 'L';
-	else if(straight_detect)
-	return 'S';
-	else if(right_detect)
-	return 'R';
-	else
-	return 'B';
-}
 
 //we can optimize the path by eliminating dead ends (making U turns can be avoided)
 void optimize_path() {
@@ -33,14 +21,14 @@ void optimize_path() {
 		switch(path_tracker[path_length-i])
 		{
 			case 'R':
-			angle += 90;
-			break;
+				angle += 90;
+				break;
 			case 'L':
-			angle += 270;
-			break;
+				angle += 270;
+				break;
 			case 'B':
-			angle += 180;
-			break;
+				angle += 180;
+				break;
 		}
 	}
 
@@ -48,19 +36,20 @@ void optimize_path() {
 	angle = angle % 360;
 
 	//optimizing the turns with a single turn
-	switch(angle){
+	switch(angle)
+	{
 		case 0:
-		path_tracker[path_length - 3] = 'S';
-		break;
+			path_tracker[path_length - 3] = 'S';
+			break;
 		case 90:
-		path_tracker[path_length - 3] = 'R';
-		break;
+			path_tracker[path_length - 3] = 'R';
+			break;
 		case 180:
-		path_tracker[path_length - 3] = 'B';
-		break;
+			path_tracker[path_length - 3] = 'B';
+			break;
 		case 270:
-		path_tracker[path_length - 3] = 'L';
-		break;
+			path_tracker[path_length - 3] = 'L';
+			break;
 	}
 	
 	//since path is now shorter by 2 steps
@@ -149,7 +138,6 @@ void maze_solving_algorithm()
 		int i;
 		for(i=0;i<path_length;i++)
 		{
-			// SECOND MAIN LOOP BODY
 			line_follow();
 
 			//going straight before slowdown

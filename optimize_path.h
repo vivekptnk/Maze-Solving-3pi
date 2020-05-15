@@ -1,1 +1,0 @@
-void optimize_path();

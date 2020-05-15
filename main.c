@@ -1,7 +1,8 @@
 /* Maze_solving - an application for the Pololu 3pi Robot
  *
  * Created: 4/17/2020 2:25:58 AM
- *  Author: vivek
+ * Author: vivek
+ * Reference : pololu.com/docs
  */
 
 #include <pololu/3pi.h>
@@ -14,6 +15,7 @@ const char project_name2[] PROGMEM = "Solving";
 const char project_author1[] PROGMEM = "Project by:";
 const char project_author2[] PROGMEM = "Vivek P.";
 
+// a tune that i wanted to add to the 3pi while it is solving the maze - found in forum.pololu.com
 const char videogame_tune[] PROGMEM = "v12 L16 o5 eererce8g8r8<g8r8"
 "c8.<gr8<e8.<a8<b8<b-<a8<g.e.g.a8fgre8cd<b8."
 "c8.<gr8<e8.<a8<b8<b-<a8<g.e.g.a8fgre8cd<b8."

@@ -150,6 +150,12 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="left_hand_on_wall.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="left_hand_on_wall.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
