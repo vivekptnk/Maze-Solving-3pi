@@ -20,6 +20,7 @@ void turn_control(char direction){
 			set_motors(80,-80);
 			delay_ms(400);
 			break;
+			
 		case 'S': // go straight
 			// no action
 			break;

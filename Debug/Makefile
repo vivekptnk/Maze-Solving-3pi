@@ -37,9 +37,10 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../left_hand_on_wall.c \
 ../main.c \
 ../maze_solving_algorithm.c \
-../PID_handling.c \
+../line_follow.c \
 ../turn_control.c
 
 
@@ -50,27 +51,31 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+left_hand_on_wall.o \
 main.o \
 maze_solving_algorithm.o \
-PID_handling.o \
+line_follow.o \
 turn_control.o
 
 OBJS_AS_ARGS +=  \
+left_hand_on_wall.o \
 main.o \
 maze_solving_algorithm.o \
-PID_handling.o \
+line_follow.o \
 turn_control.o
 
 C_DEPS +=  \
+left_hand_on_wall.d \
 main.d \
 maze_solving_algorithm.d \
-PID_handling.d \
+line_follow.d \
 turn_control.d
 
 C_DEPS_AS_ARGS +=  \
+left_hand_on_wall.d \
 main.d \
 maze_solving_algorithm.d \
-PID_handling.d \
+line_follow.d \
 turn_control.d
 
 OUTPUT_FILE_PATH +=Maze_solving.elf
@@ -87,6 +92,13 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+./left_hand_on_wall.o: .././left_hand_on_wall.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
 ./main.o: .././main.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
@@ -101,7 +113,7 @@ LINKER_SCRIPT_DEP+=
 	@echo Finished building: $<
 	
 
-./PID_handling.o: .././PID_handling.c
+./line_follow.o: .././line_follow.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.3.300\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

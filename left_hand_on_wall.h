@@ -1,0 +1,1 @@
+char left_hand_on_wall(unsigned char left_detect, unsigned char right_detect, unsigned char straight_detect);

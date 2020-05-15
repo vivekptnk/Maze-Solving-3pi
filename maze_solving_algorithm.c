@@ -1,23 +1,11 @@
 #include <pololu/3pi.h>
 #include "turn_control.h"
-#include "PID_handling.h"
+#include "line_follow.h"
+#include "left_hand_on_wall.h"
 
-//variable to store the path taken that is "TR TL TB GS"
-char path_tracker[200] = "";
+//variable to store the path taken that is "R(right) L B S"
 unsigned char path_length = 0;
-
-char turn_detection(unsigned char left_detect, unsigned char right_detect, unsigned char straight_detect){
-	//we will use left-hand-on-the-wall strategy
-	if(left_detect)
-		return 'L';
-	else if(straight_detect)
-		return 'S';
-	else if(right_detect)
-		return 'R';
-	else
-		return 'B';
-}
-
+char path_tracker[200] = "";
 
 
 //we can optimize the path by eliminating dead ends (making U turns can be avoided)
@@ -67,20 +55,19 @@ void optimize_path(){
 	path_length = path_length -2 ;
 }
 
-
 //maze solver
 void maze_solving_algorithm(){
 	while(1){
-		PID_handling();
+		line_follow();
 		
 		//calibrating the surface by moving ahead slowly
 		set_motors(50,50);
 		delay_ms(50);
 		
 		//variables to keep track of the intersections
-		unsigned char left_detect = 0;
-		unsigned char straight_detect = 0;
-		unsigned char right_detect = 0;
+		unsigned char left_detect1 = 0;
+		unsigned char straight_detect1 = 0;
+		unsigned char right_detect1 = 0;
 		
 		//read line sensors
 		unsigned sensors[5];
@@ -88,11 +75,11 @@ void maze_solving_algorithm(){
 		
 		//check for left or right by checking sensors[0] and sensors[4]
 		if(sensors[0]>100){
-			left_detect = 1;
+			left_detect1 = 1;
 		}
 		
 		if(sensors[4]>100){
-			right_detect = 1;
+			right_detect1 = 1;
 		}
 		
 		set_motors(40,40);
@@ -101,7 +88,7 @@ void maze_solving_algorithm(){
 		
 		//check if straight exists
 		if(sensors[1]>200 || sensors[2]>200 || sensors[3]>200){
-			straight_detect = 1;
+			straight_detect1 = 1;
 		}
 		
 		if(sensors[1] > 600 && sensors[2] > 600 && sensors[3] > 600){
@@ -109,7 +96,7 @@ void maze_solving_algorithm(){
 		}
 		
 		//intersection identified
-		unsigned char direction = turn_detection(left_detect, right_detect, straight_detect);
+		unsigned char direction = left_hand_on_wall(left_detect1, right_detect1, straight_detect1);
 		
 		//use the turn_control function to make the right turn
 		turn_control(direction);
@@ -122,6 +109,7 @@ void maze_solving_algorithm(){
 	//loop to run maze infinite times
 	while(1){
 		
+		set_motors(0,0);
 		
 		//wait for button to be pressed
 		while(button_is_pressed(BUTTON_B)){
@@ -142,7 +130,7 @@ void maze_solving_algorithm(){
 		
 		int i;
 		for(i=0; i<path_length; i++){
-			PID_handling();
+			line_follow();
 			
 			//going straight slowly 
 			set_motors(50,50);
@@ -154,6 +142,6 @@ void maze_solving_algorithm(){
 			
 		}
 		
-		PID_handling();
+		line_follow();
 	}
 }

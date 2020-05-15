@@ -150,7 +150,10 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="IncFile1.h">
+    <Compile Include="left_hand_on_wall.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="left_hand_on_wall.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
@@ -162,10 +165,10 @@
     <Compile Include="maze_solving_algorithm.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="PID_handling.c">
+    <Compile Include="line_follow.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="PID_handling.h">
+    <Compile Include="line_follow.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="turn_control.c">

@@ -1,5 +1,4 @@
-maze_solving_algorithm.d maze_solving_algorithm.o: \
- .././maze_solving_algorithm.c \
+line_follow.d line_follow.o: .././line_follow.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\3pi.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\Pololu3pi/Pololu3pi.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\orangutananalog\orangutananalog.h \
@@ -40,8 +39,7 @@ maze_solving_algorithm.d maze_solving_algorithm.o: \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\orangutanpulsein\orangutanpulsein.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\orangutantime\orangutantime.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\orangutanspimaster\orangutanspimaster.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\workaround.h \
- .././turn_control.h .././line_follow.h .././left_hand_on_wall.h
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\workaround.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\3pi.h:
 
@@ -124,9 +122,3 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\orangutanspimaster\orangutanspimaster.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\workaround.h:
-
-.././turn_control.h:
-
-.././line_follow.h:
-
-.././left_hand_on_wall.h:
