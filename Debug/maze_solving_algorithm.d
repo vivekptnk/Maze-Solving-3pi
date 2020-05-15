@@ -41,7 +41,7 @@ maze_solving_algorithm.d maze_solving_algorithm.o: \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\orangutantime\orangutantime.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\orangutanspimaster\orangutanspimaster.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\workaround.h \
- .././turn_control.h .././line_follow.h
+ .././line_follow.h .././turn_control.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\3pi.h:
 
@@ -125,6 +125,6 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\pololu\workaround.h:
 
-.././turn_control.h:
-
 .././line_follow.h:
+
+.././turn_control.h:
